@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Date Plan</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f7f1ed;
+    overflow:hidden;
+}
+
+.container{
+    text-align:center;
+    padding:20px;
+}
+
+.heart{
+    font-size:50px;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.2);}
+    100%{transform:scale(1);}
+}
+
+h1{
+    color:#594447;
+    margin:20px 0;
+    font-size:3rem;
+}
+
+.buttons{
+    position:relative;
+    width:400px;
+    height:200px;
+    margin:auto;
+}
+
+button{
+    cursor:pointer;
+    border:none;
+    transition:.3s;
+}
+
+#yesBtn{
+    background:#966568;
+    color:#ffffff;
+    padding:15px 40px;
+    border-radius:50px;
+    font-size:18px;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+#yesBtn:hover{
+    transform:scale(1.05);
+}
+
+#noBtn{
+    position:absolute;
+    left:140px;
+    top:90px;
+    padding:15px 35px;
+    border-radius:50px;
+    background:#966568;
+    color:#ffffff;
+    box-shadow:0 4px 15px rgba(0,0,0,.15);
+}
+
+.form-page{
+    width:100%;
+    max-width:500px;
+    text-align:center;
+    padding:20px;
+}
+
+.form-page h2{
+    color:#594447;
+    margin-bottom:20px;
+}
+
+input,
+select{
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    border-radius:12px;
+    border:2px solid #ffffff;
+    font-size:16px;
+}
+
+.confirm-btn{
+    background:#966568;
+    color:#ffffff;
+    padding:12px 25px;
+    border-radius:30px;
+    margin-top:10px;
+    font-size:16px;
+}
+
+.result-card{
+    background:#b98282;
+    padding:25px;
+    border-radius:20px;
+    margin-top:20px;
+    line-height:2;
+}
+
+.whatsapp-btn{
+    background:#25D366;
+    color:#000000;
+    padding:15px 25px;
+    border-radius:30px;
+    display:inline-block;
+    text-decoration:none;
+    margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="heart">❤️</div>
+
+<h1>Will you go on a date with me?</h1>
+
+<div class="buttons">
+<button id="yesBtn">YES 🤍</button>
+<button id="noBtn">NO ❌</button>
+</div>
+
+</div>
+
+<script>
+
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+
+noBtn.addEventListener("mouseover",()=>{
+
+const maxX = window.innerWidth - noBtn.offsetWidth;
+const maxY = window.innerHeight - noBtn.offsetHeight;
+
+noBtn.style.position="fixed";
+noBtn.style.left=Math.random()*maxX+"px";
+noBtn.style.top=Math.random()*maxY+"px";
+
+});
+
+yesBtn.addEventListener("click",()=>{
+
+document.body.innerHTML=`
+
+<div class="form-page">
+
+<h2>YAY!</h2>
+
+<p>When Should Our Date Be?</p>
+
+<input type="date" id="date">
+
+<input type="time" id="time">
+
+<select id="place" onchange="toggleCustomPlace()">
+<option value="">Pilih Tempat</option>
+<option>DIA Coffee ☕</option>
+<option>Bioskop Icon Mall 🎬</option>
+<option>Pantai Kelan 🌊</option>
+<option>Living World 🛍️</option>
+<option value="custom">Tempat Lain...</option>
+</select>
+
+<input
+type="text"
+id="customPlace"
+placeholder="Masukkan tempat pilihanmu"
+style="display:none;"
+>
+
+<button class="confirm-btn" onclick="confirmDate()">
+Konfirmasi
+</button>
+
+</div>
+
+`;
+
+});
+
+function toggleCustomPlace(){
+
+const place=document.getElementById("place").value;
+const custom=document.getElementById("customPlace");
+
+if(place==="custom"){
+custom.style.display="block";
+}else{
+custom.style.display="none";
+}
+
+}
+
+function confirmDate(){
+
+const date=document.getElementById("date").value;
+const time=document.getElementById("time").value;
+
+let place=document.getElementById("place").value;
+
+if(place==="custom"){
+place=document.getElementById("customPlace").value;
+}
+
+if(!date || !time || !place){
+
+alert("Lengkapi semua data terlebih dahulu");
+return;
+
+}
+
+const message=
+`DATE CONFIRMED, SEE YOU 🤍
+
+📅 Tanggal : ${date}
+⏰ Jam : ${time}
+📍 Tempat : ${place}`;
+
+const whatsappLink=
+`https://wa.me/6281353779275?text=${encodeURIComponent(message)}`;
+
+document.body.innerHTML=`
+
+<div class="form-page">
+
+<h1>DATE CONFIRMED, SEE YOU 🥰</h1>
+
+<div class="result-card">
+
+<div>📅 <b>${date}</b></div>
+
+<div>⏰ <b>${time}</b></div>
+
+<div>📍 <b>${place}</b></div>
+
+</div>
+
+<p style="margin-top:20px;">
+See You !!! 🥰
+</p>
+
+<a
+class="whatsapp-btn"
+href="${whatsappLink}"
+target="_blank"
+>
+Kirim ke WhatsApp 💚
+</a>
+
+</div>
+
+`;
+
+}
+
+</script>
+
+</body>
+</html>
